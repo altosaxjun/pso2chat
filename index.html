@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>PSO2チャットコマンド作成ツール</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/clipboard.js/1.5.3/clipboard.min.js"></script>
+	<script type="text/javascript">
+		$(function (){
+			var clipboard = new Clipboard('#outputbutton');
+		});
+
+		function AllHide() {
+			document.getElementById('angle').style.display = 'none';
+			document.getElementById('akarusa').style.display = 'none';
+		}
+
+		function SetSubMenu(idname){
+			AllHide(); //全て隠す
+			if (idname != "") {
+				//スタイルの変更
+				document.getElementById('angle').style.display = 'inline';
+				document.getElementById('akarusa').style.display = 'inline';
+			}
+		}
+
+		function Insert(text){
+			var obj = $('#area');
+			//var str = text;
+			// テキストエリア位置取得
+			obj.focus();
+			var s = obj.val();
+			var p = obj.get(0).selectionStart;
+			var np = p + text.length;
+			obj.val(s.substr(0,p) + text + s.substr(p));
+			obj.get(0).setSelectionRange(np,np);
+			//document.getElementById("area").focus();
+			//var selection = document.selection.createRange();
+			// テキストエリアの位置に取得した内容をセット
+			//selection.text = str+selection.text;
+		}
+
+		function Output() {
+			var say = form.say.value;
+			var fukidasi = form.fukidasi.value;
+			var cutin = form.cutin.value;
+			var angle = form.angle.value;
+			var akarusa = form.akarusa.value;
+			var mn = form.mn.value;
+			var text = form.textarea.value; //テキストエリア
+			//text = text.replace(/\n/g, '<br />');
+			//生成
+			var chat = say + fukidasi + cutin + angle + akarusa + mn + text;
+
+			//表示
+			target = document.getElementById("output");
+			target.innerText = chat;
+		}
+		$(function(){
+			var fukistr;
+			$('#fuki')
+				.keyup(function(e){
+					fukistr = ($('input[id="fuki"]').val());
+					fukistr %= 12;
+					if(fukistr == 0){
+						fukistr = "赤";
+					} else if (fukistr == 1) {
+						fukistr = "緑";
+					} else if (fukistr == 2) {
+						fukistr = "黄";
+					} else if (fukistr == 3) {
+						fukistr = "青";
+					} else if (fukistr == 4) {
+						fukistr = "ピンク";
+					} else if (fukistr == 5) {
+						fukistr = "水";
+					} else if (fukistr == 6) {
+						fukistr = "橙";
+					} else if (fukistr == 7) {
+						fukistr = "明るい緑";
+					} else if (fukistr == 8) {
+						fukistr = "紫";
+					} else if (fukistr == 9) {
+						fukistr = "緑";
+					} else if (fukistr == 10) {
+						fukistr = "赤紫";
+					} else if (fukistr == 11) {
+						fukistr = "空";
+					}
+					$('#result').text(fukistr);
+				});
+			
+		});
+	</script>
+</head>
+<body>
+	<h1>PSO2チャットコマンド作成ツールbeta2</h1>
+	<form name="form" action="index.html" method="get">
+	<h3>吹き出し設定</h3>
+		<select name="say">
+			<option value="">▼発言先</option>
+			<option value="/a ">周囲（白チャ）</option>
+			<option value="/p " style="color: blue;">パーティ</option>
+			<option value="/t " style="color: orange;">チーム</option>
+		</select>
+		<select name="fukidasi">
+			<option value="">▼吹き出し</option>
+			<option value="/toge ">/toge:強調</option>
+			<option value="/moya ">/moya:もやもや</option>
+		</select>
+		<select name="cutin" onchange="SetSubMenu(value);angle.selectedIndex=0;akarusa.selectedIndex=0">
+			<option value="">▼カットイン</option>
+			<option value="/ci1 ">通常</option>
+			<option value="/ci2 ">笑顔</option>
+			<option value="/ci3 ">怒り</option>
+			<option value="/ci4 ">悲しみ</option>
+			<option value="/ci5 ">不信感</option>
+			<option value="/ci6 ">目閉じ</option>
+			<option value="/ci7 ">口パクなし</option>
+			<option value="/ci8 ">笑顔２</option>
+			<option value="/ci9 ">ウィンク</option>
+		</select>
+		<select id="angle" name="angle" class="secondpulldown">
+			<option value="">▼アングル</option>
+			<option id="1 " value="1 ">正面から</option>
+			<option id="2 " value="2 ">斜め横から</option>
+			<option id="3 " value="3 ">斜め上から</option>
+			<option id="4 " value="4 ">斜め下から</option>
+			<option id="5 " value="5 ">横から</option>
+		</select>
+		<select name="akarusa" id="akarusa" class="secondpulldown">
+			<option value="">▼明るさ</option>
+		 	<option value="t1 " id="t1 ">明るさ１</option>
+		 	<option value="t2 " id="t2 ">明るさ２</option>
+		 	<option value="t3 " id="t3 ">明るさ３</option>
+		 	<option value="t4 " id="t4 ">明るさ４</option>
+		 	<option value="t5 " id="t5 ">明るさ５</option>
+		 </select>
+		<select name="mn">
+			<option value="">▼漫符</option>
+			<option value="/mn1 ">/mn1:汗</option>
+			<option value="/mn2 ">/mn2:汗２</option>
+			<option value="/mn3 ">/mn3:血管</option>
+			<option value="/mn4 ">/mn4:エクトプラズム</option>
+			<option value="/mn5 ">/mn5:たれ線</option>
+			<option value="/mn6 ">/mn6:テレ線</option>
+			<option value="/mn7 ">/mn7:昇天</option>
+			<option value="/mn8 ">/mn8:がいこつ</option>
+			<option value="/mn9 ">/mn9:ひらめき</option>
+			<option value="/mn10 ">/mn10:呆け</option>
+			<option value="/mn11 ">/mn11:ため息</option>
+			<option value="/mn12 ">/mn12:ぷんぷん</option>
+			<option value="/mn13 ">/mn13:不満</option>
+			<option value="/mn15 ">/mn15:笑い線</option>
+			<option value="/mn16 ">/mn16:ハート</option>
+			<option value="/mn17 ">/mn17:音符</option>
+			<option value="/mn18 ">/mn18:感嘆符</option>
+			<option value="/mn19 ">/mn19:疑問符</option>
+			<option value="/mn20 ">/mn20:感嘆符疑問符</option>
+			<option value="/mn21 ">/mn21:眠い</option>
+			<option value="/mn22 ">/mn22:驚き</option>
+			<option value="/mn23 ">/mn23:たれ線＋汗１</option>
+			<option value="/mn24 ">/mn24:汗２＋テレ線</option>
+			<option value="/mn25 ">/mn25:不満＋血管</option>
+			<option value="/mn26 ">/mn26:血管＋感嘆符</option>
+			<option value="/mn27 ">/mn27:たれ線＋ため息</option>
+			<option value="/mn28 ">/mn28:呆け+テレ線</option>
+			<option value="/mn29 ">/mn29:テレ線＋ぷんぷん</option>
+			<option value="/mn30 ">/mn30:エクトプラズム＋がいこつ</option>
+			<option value="/mn31 ">/mn31:ひらめき＋感嘆符疑問符</option>
+			<option value="/mn32 ">/mn32:呆け＋ハート</option>
+			<option value="/mn33 ">/mn33:ぷんぷん＋ため息</option>
+			<option value="/mn34 ">/mn34:不満＋感嘆符</option>
+			<option value="/mn35 ">/mn35:不満＋感嘆符疑問符</option>
+			<option value="/mn36 ">/mn36:驚き＋感嘆符</option>
+			<option value="/mn37 ">/mn37:笑い線＋ハート</option>
+			<option value="/mn38 ">/mn38:笑い線＋音符</option>
+			<option value="/mn39 ">/mn39:ぷんぷん＋疑問符</option>
+		</select>
+		<h3>カラー挿入ボタン</h3>
+		<input type="button" value="■赤" onclick="Insert('{red}')" style="color: red">
+		<input type="button" value="■黒" onclick="Insert('{blk}')" style="color: black">
+		<input type="button" value="■紫" onclick="Insert('{pur}')" style="color: purple">
+		<input type="button" value="□ベージュ" onclick="Insert('{bei}')">
+		<input type="button" value="■橙" onclick="Insert('{ora}')" style="color: orange">
+		<input type="button" value="■灰" onclick="Insert('{gra}')" style="color: gray">
+		<input type="button" value="■緑" onclick="Insert('{gre}')" style="color: green">
+		<input type="button" value="□白" onclick="Insert('{whi}')">
+		<input type="button" value="■すみれ" onclick="Insert('{vio}')" style="color: violet">
+		<input type="button" value="■青" onclick="Insert('{blu}')" style="color: blue">
+		<br>
+		<input type="button" value="■デフォルト" onclick="Insert('{def}')">
+		<h3>挿入ボタン</h3>
+		<input type="button" value="フォトンアーツ" onclick="Insert('<pa>')">
+		<input type="button" value="テクニック" onclick="Insert('<tc>')">
+		<input type="button" value="現在地座標" onclick="Insert('<pos>')">
+		<input type="button" value="現在の所在地" onclick="Insert('<ar>')">
+		<input type="button" value="自分の名前" onclick="Insert('<me>')">
+		<input type="button" value="ペット名" onclick="Insert('<pet>')">
+		<br>
+		<input type="button" value="ターゲット" onclick="Insert('<t>')">
+		<input type="button" value="装備中の武器名" onclick="Insert('<wp>')">
+		<input type="button" value="現在HP/最大HP" onclick="Insert('<hp>')">
+		<input type="button" value="現在PP/最大PP" onclick="Insert('<pp>')">
+		<input type="button" value="現在のクラスとレベル" onclick="Insert('<cl>')">
+		<br>
+		<input type="button" value="使用したスキル名" onclick="Insert('<sk>')">
+		<input type="button" value="Eトラ１" onclick="Insert('<et1>')">
+		<input type="button" value="Eトラ２" onclick="Insert('<et2>')">
+		<input type="button" value="Eトラ３" onclick="Insert('<et3>')">
+		<input type="button" value="一番近い拠点名" onclick="Insert('<bc>')">
+		<input type="button" value="置いたアイテム名" onclick="Insert('<pi>')">
+		<input type="button" value="拾ったアイテム名" onclick="Insert('<gi>')">
+		<br>
+		<select name="la" id="la" onchange="Insert(value); la.selectedIndex=0;">
+			<option value="" style="display:none;">ロビーアクション</option>
+			<option value="/la ">ロビーアクション</option>
+			<option value="/mla ">異性のロビーアクション</option>
+		</select>
+		<select name="voice" id="voice" onchange="Insert(value); voice.selectedIndex=0;">
+			<option value="" style="display:none;">ボイス</option>
+			<option value="/vo1 ">ボイス1</option>
+			<option value="/vo2 ">ボイス2</option>
+			<option value="/vo3 ">ボイス3</option>
+			<option value="/vo4 ">ボイス4</option>
+			<option value="/vo5 ">ボイス5</option>
+			<option value="/vo6 ">ボイス6</option>
+			<option value="/vo7 ">ボイス7</option>
+			<option value="/vo8 ">ボイス8</option>
+			<option value="/vo9 ">ボイス9</option>
+			<option value="/vo10 ">ボイス10</option>
+			<option value="/vo11 ">ボイス11</option>
+			<option value="/vo12 ">ボイス12</option>
+			<option value="/vo13 ">ボイス13</option>
+			<option value="/vo14 ">ボイス14</option>
+			<option value="/vo15 ">ボイス15</option>
+			<option value="/vo16 ">ボイス16</option>
+			<option value="/vo17 ">ボイス17</option>
+			<option value="/vo18 ">ボイス18</option>
+			<option value="/vo19 ">ボイス19</option>
+			<option value="/vo20 ">ボイス20</option>
+			<option value="/vo21 ">ボイス21</option>
+			<option value="/vo22 ">ボイス22</option>
+		</select>
+		<select name="symbol" id="symbol" onchange="Insert(value); symbol.selectedIndex=0;">
+			<option value="" style="display:none;">シンボルアート</option>
+			<option value="/symbol1 ">シンボルアート1</option>
+			<option value="/symbol2 ">シンボルアート2</option>
+			<option value="/symbol3 ">シンボルアート3</option>
+			<option value="/symbol4 ">シンボルアート4</option>
+			<option value="/symbol5 ">シンボルアート5</option>
+			<option value="/symbol6 ">シンボルアート6</option>
+			<option value="/symbol7 ">シンボルアート7</option>
+			<option value="/symbol8 ">シンボルアート8</option>
+			<option value="/symbol9 ">シンボルアート9</option>
+			<option value="/symbol10 ">シンボルアート10</option>
+			<option value="/symbol11 ">シンボルアート11</option>
+			<option value="/symbol12 ">シンボルアート12</option>
+			<option value="/symbol13 ">シンボルアート13</option>
+			<option value="/symbol14 ">シンボルアート14</option>
+			<option value="/symbol15 ">シンボルアート15</option>
+			<option value="/symbol16 ">シンボルアート16</option>
+			<option value="/symbol17 ">シンボルアート17</option>
+			<option value="/symbol18 ">シンボルアート18</option>
+			<option value="/symbol19 ">シンボルアート19</option>
+			<option value="/symbol20 ">シンボルアート20</option>
+			<option value="/symbol21 ">シンボルアート21</option>
+			<option value="/symbol22 ">シンボルアート22</option>
+			<option value="/symbol23 ">シンボルアート23</option>
+			<option value="/symbol24 ">シンボルアート24</option>
+			<option value="/symbol25 ">シンボルアート25</option>
+			<option value="/symbol26 ">シンボルアート26</option>
+			<option value="/symbol27 ">シンボルアート27</option>
+			<option value="/symbol28 ">シンボルアート28</option>
+			<option value="/symbol29 ">シンボルアート29</option>
+			<option value="/symbol30 ">シンボルアート30</option>
+			<option value="/symbol31 ">シンボルアート31</option>
+			<option value="/symbol32 ">シンボルアート32</option>
+			<option value="/symbol33 ">シンボルアート33</option>
+			<option value="/symbol34 ">シンボルアート34</option>
+			<option value="/symbol35 ">シンボルアート35</option>
+			<option value="/symbol36 ">シンボルアート36</option>
+			<option value="/symbol37 ">シンボルアート37</option>
+			<option value="/symbol38 ">シンボルアート38</option>
+			<option value="/symbol39 ">シンボルアート39</option>
+			<option value="/symbol40 ">シンボルアート40</option>
+		</select>
+		<br>
+		<select name="mpal" id="mpal" onchange="Insert(value); mpal.selectedIndex=0;">
+			<option value="" style="display:none;">メインパレット変更</option>
+			<option value="/mpal1 ">メインパレット1</option>
+			<option value="/mpal2 ">メインパレット2</option>
+			<option value="/mpal3 ">メインパレット3</option>
+			<option value="/mpal4 ">メインパレット4</option>
+			<option value="/mpal5 ">メインパレット5</option>
+			<option value="/mpal6 ">メインパレット6</option>
+		</select>
+		<select name="spal" id="spal" onchange="Insert(value); spal.selectedIndex=0;">
+			<option value="" style="display:none;">サブパレット変更</option>
+			<option value="/spas1 ">サブパレット1</option>
+			<option value="/spas2 ">サブパレット2</option>
+			<option value="/spas3 ">サブパレット3</option>
+			<option value="/spas4 ">サブパレット4</option>
+			<option value="/spas5 ">サブパレット5</option>
+			<option value="/spas6 ">サブパレット6</option>
+			<option value="/spas7 ">サブパレット7</option>
+			<option value="/spas8 ">サブパレット8</option>
+			<option value="/spas9 ">サブパレット9</option>
+			<option value="/spas10 ">サブパレット10</option>
+			<option value="/spas11 ">サブパレット11</option>
+			<option value="/spas12 ">サブパレット12</option>
+			<option value="/spas13 ">サブパレット13</option>
+			<option value="/spas14 ">サブパレット14</option>
+			<option value="/spas15 ">サブパレット15</option>
+			<option value="/spas16 ">サブパレット16</option>
+			<option value="/spas17 ">サブパレット17</option>
+			<option value="/spas18 ">サブパレット18</option>
+		</select>
+		<input type="button" value="コスチューム変更" onclick="Insert('/cs アイテム名 ')">
+		<input type="button" value="武器迷彩変更" onclick="Insert('/cmf アイテム名 ')">
+		<input type="button" value="カメラ目線" onclick="Insert('/ce on ')">
+		<input type="button" value="カットイン非表示" onclick="Insert('nw ')">
+		<br>
+		<textarea name="textarea" id="area" cols=50 rows="4"></textarea>
+		<br>
+		<input type="button" id="outputbutton" data-clipboard-target="#output" value="チャットコマンド生成" onclick="Output();alert('コピーしました。')" />
+		<div id="output"></div>
+		
+		<hr>
+		<label for="fuki">プレイヤーID</label>
+		<input type="text" id="fuki">
+		<div>
+			あなたの吹き出しの色は<span id="result"></span>色です。
+		</div>
+	</form>
+	
+	<hr>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-via="FUK4JUN_">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+	<footer>fukajun.net</footer>	
+
+</body>
+</html>

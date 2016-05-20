@@ -1,0 +1,31 @@
+body {
+	background-color: #eeeeee;
+}
+h1 {
+	font-size: 1.5em;
+}
+h3 {
+	font-size: 0.8em;
+	margin-bottom: 3px;
+}
+input[type="button"] {
+	margin-bottom: 1px;
+	background-color: #FFFFFF;
+	padding: 5px 10px;
+	border: 1px solid;
+}
+input[type="button"]#outputbutton{
+	background-color: orange;
+	padding: 10px;
+	font-weight: bold;
+	border: 2px solid;
+}
+textarea {
+	margin: 10px;
+}
+.secondpulldown {
+	display: none;
+}
+#output {
+	font-size: 25px;
+}
